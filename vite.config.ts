@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
 
 
-const config = defineConfig({
+export default defineConfig({
   plugins: [
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
@@ -17,5 +17,7 @@ const config = defineConfig({
     viteReact(),
     nitro(),
   ],
-  nitro: {},
+  nitro: {
+    preset: 'vercel',
+  },
 })
