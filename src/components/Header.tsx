@@ -20,23 +20,78 @@ export default function Header() {
 
   return (
     <>
-      <header className="p-4 flex items-center bg-gray-800 text-white shadow-lg">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-          aria-label="Open menu"
-        >
-          <Menu size={24} />
-        </button>
-        <h1 className="ml-4 text-xl font-semibold">
-          <Link to="/">
-            <img
-              src="/tanstack-word-logo-white.svg"
-              alt="TanStack Logo"
-              className="h-10"
-            />
+      <header className="p-4 flex items-center justify-between bg-white text-gray-900 shadow-lg border-b border-gray-200">
+        <div className="flex items-center">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            aria-label="Open menu"
+          >
+            <Menu size={24} className="text-gray-900" />
+          </button>
+          <h1 className="ml-4 text-xl font-semibold">
+            <Link to="/" className="text-gray-900">
+              {/* <img
+                src="/tanstack-word-logo-white.svg"
+                alt="TanStack Logo"
+                className="h-10"
+              /> */}
+              SANDRA MAREE
+            </Link>
+          </h1>
+        </div>
+        <nav className="hidden md:flex items-center gap-6">
+          <Link
+            to="/"
+            className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-900"
+            activeProps={{
+              className:
+                'px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-900',
+            }}
+          >
+            Home
           </Link>
-        </h1>
+          <Link
+            to="/portfolio"
+            className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-900"
+            activeProps={{
+              className:
+                'px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-900',
+            }}
+          >
+            Portfolio
+          </Link>
+          <Link
+            to="/meet-the-artist"
+            className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-900"
+            activeProps={{
+              className:
+                'px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-900',
+            }}
+          >
+            Meet the Artist
+          </Link>
+          <Link
+            to="/art-classes"
+            className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-900"
+            activeProps={{
+              className:
+                'px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-900',
+            }}
+          >
+            Art Classes
+          </Link>
+          <Link
+            to="/contact"
+            className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-900"
+            activeProps={{
+              className:
+                'px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-900',
+            }}
+          >
+            Contact
+          </Link>
+        </nav>
       </header>
 
       <aside
