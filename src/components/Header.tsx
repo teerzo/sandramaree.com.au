@@ -7,6 +7,7 @@ import {
   Home,
   Menu,
   Network,
+  ShoppingBag,
   SquareFunction,
   StickyNote,
   X,
@@ -62,14 +63,14 @@ export default function Header() {
             Portfolio
           </Link>
           <Link
-            to="/meet-the-artist"
+            to="/about"
             className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-900"
             activeProps={{
               className:
                 'px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-900',
             }}
           >
-            Meet the Artist
+            About
           </Link>
           <Link
             to="/art-classes"
@@ -80,6 +81,16 @@ export default function Header() {
             }}
           >
             Art Classes
+          </Link>
+          <Link
+            to="/store"
+            className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-900"
+            activeProps={{
+              className:
+                'px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-900',
+            }}
+          >
+            Store
           </Link>
           <Link
             to="/contact"
@@ -122,6 +133,71 @@ export default function Header() {
           >
             <Home size={20} />
             <span className="font-medium">Home</span>
+          </Link>
+
+          <Link
+            to="/portfolio"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            activeProps={{
+              className:
+                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+            }}
+          >
+            <StickyNote size={20} />
+            <span className="font-medium">Portfolio</span>
+          </Link>
+
+          <Link
+            to="/about"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            activeProps={{
+              className:
+                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+            }}
+          >
+            <StickyNote size={20} />
+            <span className="font-medium">About</span>
+          </Link>
+
+          <Link
+            to="/art-classes"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            activeProps={{
+              className:
+                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+            }}
+          >
+            <StickyNote size={20} />
+            <span className="font-medium">Art Classes</span>
+          </Link>
+
+          <Link
+            to="/store"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            activeProps={{
+              className:
+                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+            }}
+          >
+            <ShoppingBag size={20} />
+            <span className="font-medium">Store</span>
+          </Link>
+
+          <Link
+            to="/contact"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
+            activeProps={{
+              className:
+                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
+            }}
+          >
+            <StickyNote size={20} />
+            <span className="font-medium">Contact</span>
           </Link>
 
           {/* Demo Links Start */}

@@ -9,10 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StoreRouteImport } from './routes/store'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
-import { Route as MeetTheArtistRouteImport } from './routes/meet-the-artist'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ArtClassesRouteImport } from './routes/art-classes'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
@@ -22,14 +23,14 @@ import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
 
+const StoreRoute = StoreRouteImport.update({
+  id: '/store',
+  path: '/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MeetTheArtistRoute = MeetTheArtistRouteImport.update({
-  id: '/meet-the-artist',
-  path: '/meet-the-artist',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -40,6 +41,11 @@ const ContactRoute = ContactRouteImport.update({
 const ArtClassesRoute = ArtClassesRouteImport.update({
   id: '/art-classes',
   path: '/art-classes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -85,10 +91,11 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/art-classes': typeof ArtClassesRoute
   '/contact': typeof ContactRoute
-  '/meet-the-artist': typeof MeetTheArtistRoute
   '/portfolio': typeof PortfolioRoute
+  '/store': typeof StoreRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -99,10 +106,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/art-classes': typeof ArtClassesRoute
   '/contact': typeof ContactRoute
-  '/meet-the-artist': typeof MeetTheArtistRoute
   '/portfolio': typeof PortfolioRoute
+  '/store': typeof StoreRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -114,10 +122,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/art-classes': typeof ArtClassesRoute
   '/contact': typeof ContactRoute
-  '/meet-the-artist': typeof MeetTheArtistRoute
   '/portfolio': typeof PortfolioRoute
+  '/store': typeof StoreRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -130,10 +139,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/art-classes'
     | '/contact'
-    | '/meet-the-artist'
     | '/portfolio'
+    | '/store'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -144,10 +154,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/art-classes'
     | '/contact'
-    | '/meet-the-artist'
     | '/portfolio'
+    | '/store'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -158,10 +169,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/art-classes'
     | '/contact'
-    | '/meet-the-artist'
     | '/portfolio'
+    | '/store'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -173,10 +185,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   ArtClassesRoute: typeof ArtClassesRoute
   ContactRoute: typeof ContactRoute
-  MeetTheArtistRoute: typeof MeetTheArtistRoute
   PortfolioRoute: typeof PortfolioRoute
+  StoreRoute: typeof StoreRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
   DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
@@ -188,18 +201,18 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portfolio': {
       id: '/portfolio'
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/meet-the-artist': {
-      id: '/meet-the-artist'
-      path: '/meet-the-artist'
-      fullPath: '/meet-the-artist'
-      preLoaderRoute: typeof MeetTheArtistRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/art-classes'
       fullPath: '/art-classes'
       preLoaderRoute: typeof ArtClassesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -277,10 +297,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   ArtClassesRoute: ArtClassesRoute,
   ContactRoute: ContactRoute,
-  MeetTheArtistRoute: MeetTheArtistRoute,
   PortfolioRoute: PortfolioRoute,
+  StoreRoute: StoreRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
   DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
