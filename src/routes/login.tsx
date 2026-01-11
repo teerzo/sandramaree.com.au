@@ -75,7 +75,7 @@ function Login() {
         <div className="min-h-screen bg-white py-12 px-6">
             <div className="max-w-md mx-auto">
                 <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">
-                    Admin Login
+                    Login
                 </h1>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
