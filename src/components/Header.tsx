@@ -1,10 +1,11 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 
 import { useState } from 'react'
 import {
   ChevronDown,
   ChevronRight,
   Home,
+  LogOut,
   Menu,
   Network,
   ShoppingBag,
@@ -12,12 +13,20 @@ import {
   StickyNote,
   X,
 } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [groupedExpanded, setGroupedExpanded] = useState<
     Record<string, boolean>
   >({})
+  const { user, signOut } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await signOut()
+    navigate({ to: '/' })
+  }
 
   return (
     <>

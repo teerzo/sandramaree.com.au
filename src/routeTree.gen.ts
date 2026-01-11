@@ -11,10 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StoreRouteImport } from './routes/store'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ArtClassesRouteImport } from './routes/art-classes'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminUploadRouteImport } from './routes/admin/upload'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
@@ -33,6 +37,11 @@ const PortfolioRoute = PortfolioRouteImport.update({
   path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -41,6 +50,11 @@ const ContactRoute = ContactRouteImport.update({
 const ArtClassesRoute = ArtClassesRouteImport.update({
   id: '/art-classes',
   path: '/art-classes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -52,6 +66,16 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUploadRoute = AdminUploadRouteImport.update({
+  id: '/upload',
+  path: '/upload',
+  getParentRoute: () => AdminRoute,
 } as any)
 const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
   id: '/demo/start/server-funcs',
@@ -92,10 +116,14 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/art-classes': typeof ArtClassesRoute
   '/contact': typeof ContactRoute
+  '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/store': typeof StoreRoute
+  '/admin/upload': typeof AdminUploadRoute
+  '/admin/': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -109,8 +137,11 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/art-classes': typeof ArtClassesRoute
   '/contact': typeof ContactRoute
+  '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/store': typeof StoreRoute
+  '/admin/upload': typeof AdminUploadRoute
+  '/admin': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -123,10 +154,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/art-classes': typeof ArtClassesRoute
   '/contact': typeof ContactRoute
+  '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/store': typeof StoreRoute
+  '/admin/upload': typeof AdminUploadRoute
+  '/admin/': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -140,10 +175,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/art-classes'
     | '/contact'
+    | '/login'
     | '/portfolio'
     | '/store'
+    | '/admin/upload'
+    | '/admin/'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -157,8 +196,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/art-classes'
     | '/contact'
+    | '/login'
     | '/portfolio'
     | '/store'
+    | '/admin/upload'
+    | '/admin'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -170,10 +212,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/art-classes'
     | '/contact'
+    | '/login'
     | '/portfolio'
     | '/store'
+    | '/admin/upload'
+    | '/admin/'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -186,8 +232,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ArtClassesRoute: typeof ArtClassesRoute
   ContactRoute: typeof ContactRoute
+  LoginRoute: typeof LoginRoute
   PortfolioRoute: typeof PortfolioRoute
   StoreRoute: typeof StoreRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
@@ -215,6 +263,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -227,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/art-classes'
       fullPath: '/art-classes'
       preLoaderRoute: typeof ArtClassesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -242,6 +304,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/upload': {
+      id: '/admin/upload'
+      path: '/upload'
+      fullPath: '/admin/upload'
+      preLoaderRoute: typeof AdminUploadRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/demo/start/server-funcs': {
       id: '/demo/start/server-funcs'
@@ -295,11 +371,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminUploadRoute: typeof AdminUploadRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminUploadRoute: AdminUploadRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   ArtClassesRoute: ArtClassesRoute,
   ContactRoute: ContactRoute,
+  LoginRoute: LoginRoute,
   PortfolioRoute: PortfolioRoute,
   StoreRoute: StoreRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,

@@ -11,7 +11,7 @@ function About() {
                 {/* <h1 className="text-4xl font-bold text-gray-900 mb-8">About</h1> */}
 
                 <div className="flex flex-row gap-10 mt-10">
-                    <div className="flex flex-col gap-2">
+                    <div className="hidden md:flex flex-col gap-2">
                         <a href="#about" className="text-gray-700 hover:text-gray-900"> About</a>
                         <a href="#solo" className="text-gray-700 hover:text-gray-900"> Solo Exhibitions</a>
                         <a href="#group" className="text-gray-700 hover:text-gray-900"> Group Exhibitions</a>
