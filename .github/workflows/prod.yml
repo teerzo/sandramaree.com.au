@@ -29,7 +29,7 @@ jobs:
 
       - run: supabase link --project-ref $SUPABASE_PROJECT_ID
       - run: supabase db push
-      - run: supabase functions deploy --project-ref $SUPABASE_PROJECT_ID --no-verify-jwt
+      # - run: supabase functions deploy --project-ref $SUPABASE_PROJECT_ID --no-verify-jwt
 
       - run: npm run update-types
       - name: check for file changes
