@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { Home, LogOut, Upload } from 'lucide-react'
+import { Home, Images, LogOut, Upload } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 
 export default function AdminHeader() {
@@ -20,6 +20,18 @@ export default function AdminHeader() {
         >
           <Home size={20} />
           <span>Home</span>
+        </Link>
+        <Link
+          to="/admin/portfolio"
+          className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-900 flex items-center gap-2"
+          activeProps={{
+            className:
+              'px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-900 flex items-center gap-2',
+          }}
+          title="Portfolio"
+        >
+          <Images size={20} />
+          <span>Portfolio</span>
         </Link>
         <Link
           to="/admin/upload"
