@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StoreRouteImport } from './routes/store'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as PortfolioSlugRouteImport } from './routes/portfolio.$slug'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ArtClassesRouteImport } from './routes/art-classes'
@@ -19,6 +20,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
+import { Route as AdminPortfolioSlugRouteImport } from './routes/admin/portfolio.$slug'
 import { Route as AdminUploadRouteImport } from './routes/admin/upload'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
@@ -36,6 +38,11 @@ const StoreRoute = StoreRouteImport.update({
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioSlugRoute = PortfolioSlugRouteImport.update({
+  id: '/portfolio/$slug',
+  path: '/portfolio/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -76,6 +83,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPortfolioSlugRoute = AdminPortfolioSlugRouteImport.update({
+  id: '/portfolio/$slug',
+  path: '/portfolio/$slug',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminUploadRoute = AdminUploadRouteImport.update({
@@ -127,8 +139,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
+  '/portfolio/$slug': typeof PortfolioSlugRoute
   '/store': typeof StoreRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/portfolio/$slug': typeof AdminPortfolioSlugRoute
   '/admin/upload': typeof AdminUploadRoute
   '/admin/': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -146,8 +160,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
+  '/portfolio/$slug': typeof PortfolioSlugRoute
   '/store': typeof StoreRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/portfolio/$slug': typeof AdminPortfolioSlugRoute
   '/admin/upload': typeof AdminUploadRoute
   '/admin': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -167,8 +183,10 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
+  '/portfolio/$slug': typeof PortfolioSlugRoute
   '/store': typeof StoreRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
+  '/admin/portfolio/$slug': typeof AdminPortfolioSlugRoute
   '/admin/upload': typeof AdminUploadRoute
   '/admin/': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -189,8 +207,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/portfolio'
+    | '/portfolio/$slug'
     | '/store'
     | '/admin/portfolio'
+    | '/admin/portfolio/$slug'
     | '/admin/upload'
     | '/admin/'
     | '/demo/api/names'
@@ -208,8 +228,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/portfolio'
+    | '/portfolio/$slug'
     | '/store'
     | '/admin/portfolio'
+    | '/admin/portfolio/$slug'
     | '/admin/upload'
     | '/admin'
     | '/demo/api/names'
@@ -228,8 +250,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/portfolio'
+    | '/portfolio/$slug'
     | '/store'
     | '/admin/portfolio'
+    | '/admin/portfolio/$slug'
     | '/admin/upload'
     | '/admin/'
     | '/demo/api/names'
@@ -249,6 +273,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
   PortfolioRoute: typeof PortfolioRoute
+  PortfolioSlugRoute: typeof PortfolioSlugRoute
   StoreRoute: typeof StoreRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
@@ -273,6 +298,13 @@ declare module '@tanstack/react-router' {
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio/$slug': {
+      id: '/portfolio/$slug'
+      path: '/portfolio/$slug'
+      fullPath: '/portfolio/$slug'
+      preLoaderRoute: typeof PortfolioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -329,6 +361,13 @@ declare module '@tanstack/react-router' {
       path: '/portfolio'
       fullPath: '/admin/portfolio'
       preLoaderRoute: typeof AdminPortfolioRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/portfolio/$slug': {
+      id: '/admin/portfolio/$slug'
+      path: '/portfolio/$slug'
+      fullPath: '/admin/portfolio/$slug'
+      preLoaderRoute: typeof AdminPortfolioSlugRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/upload': {
@@ -393,12 +432,14 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminUploadRoute: typeof AdminUploadRoute
   AdminPortfolioRoute: typeof AdminPortfolioRoute
+  AdminPortfolioSlugRoute: typeof AdminPortfolioSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminUploadRoute: AdminUploadRoute,
   AdminPortfolioRoute: AdminPortfolioRoute,
+  AdminPortfolioSlugRoute: AdminPortfolioSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -412,6 +453,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
   PortfolioRoute: PortfolioRoute,
+  PortfolioSlugRoute: PortfolioSlugRoute,
   StoreRoute: StoreRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
