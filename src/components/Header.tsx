@@ -80,16 +80,6 @@ export default function Header() {
           >
             About
           </Link>
-          <Link
-            to="/contact"
-            className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors font-medium text-gray-900"
-            activeProps={{
-              className:
-                'px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-900',
-            }}
-          >
-            Contact
-          </Link>
         </nav>
       </header>
 
@@ -147,19 +137,6 @@ export default function Header() {
           >
             <StickyNote size={20} />
             <span className="font-medium">About</span>
-          </Link>
-
-          <Link
-            to="/contact"
-            onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors mb-2"
-            activeProps={{
-              className:
-                'flex items-center gap-3 p-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 transition-colors mb-2',
-            }}
-          >
-            <StickyNote size={20} />
-            <span className="font-medium">Contact</span>
           </Link>
 
           {/* Demo Links Start */}
