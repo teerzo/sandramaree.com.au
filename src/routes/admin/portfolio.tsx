@@ -1,5 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
+import { getArtworkSlug } from '../../utils/portfolio'
 import { supabase } from '../../utils/supabase'
 
 const normalizeCategory = (category: string | null | undefined) =>
@@ -134,6 +135,8 @@ function AdminPortfolio() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredArtwork.map((item) => {
               const description = item.description?.trim()
+              const slug = getArtworkSlug(item)
+
               return (
                 <div
                   key={item.id || item.s3_url}
@@ -173,6 +176,13 @@ function AdminPortfolio() {
                   <p className="text-gray-600">
                     {description || 'No description provided.'}
                   </p>
+                  <Link
+                    to="/admin/portfolio/$slug"
+                    params={{ slug }}
+                    className="mt-3 inline-flex text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                  >
+                    View details
+                  </Link>
                 </div>
               )
             })}
