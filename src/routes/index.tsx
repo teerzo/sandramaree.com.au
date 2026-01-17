@@ -10,6 +10,8 @@ export const Route = createFileRoute('/')({ component: Home })
 function Home() {
   const [favourites, setFavourites] = useState<Artwork[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isOverlayVisible, setIsOverlayVisible] = useState(true)
+  const [isOverlayFading, setIsOverlayFading] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
@@ -43,6 +45,30 @@ function Home() {
       isMounted = false
     }
   }, [])
+
+  useEffect(() => {
+    if (isLoading) {
+      setIsOverlayVisible(true)
+      setIsOverlayFading(false)
+      return undefined
+    }
+
+    const fadeDelayMs = 500
+    const fadeDurationMs = 300
+
+    const fadeTimer = window.setTimeout(() => {
+      setIsOverlayFading(true)
+    }, fadeDelayMs)
+
+    const hideTimer = window.setTimeout(() => {
+      setIsOverlayVisible(false)
+    }, fadeDelayMs + fadeDurationMs)
+
+    return () => {
+      window.clearTimeout(fadeTimer)
+      window.clearTimeout(hideTimer)
+    }
+  }, [isLoading])
 
   const favouriteImages = useMemo(
     () => favourites.filter((artwork) => artwork.s3_url),
@@ -82,12 +108,13 @@ function Home() {
         alt={heroImageAlt}
         className="min-h-screen w-full object-cover"
       />
-      {isLoading ? (
-        <div className="absolute inset-0 flex items-center justify-center bg-white">
-          <div className="flex flex-col items-center gap-3 text-gray-700">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-gray-700" />
-            <span className="text-sm font-medium">Loading favourites...</span>
-          </div>
+      {isOverlayVisible ? (
+        <div
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-300 ${
+            isOverlayFading ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-gray-700" />
         </div>
       ) : null}
     </div>
