@@ -21,6 +21,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
 import { Route as AdminPortfolioSlugRouteImport } from './routes/admin/portfolio.$slug'
+import { Route as AdminPortfolioSlugEditRouteImport } from './routes/admin/portfolio.$slug.edit'
 import { Route as AdminUploadRouteImport } from './routes/admin/upload'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
@@ -90,6 +91,11 @@ const AdminPortfolioSlugRoute = AdminPortfolioSlugRouteImport.update({
   path: '/portfolio/$slug',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPortfolioSlugEditRoute = AdminPortfolioSlugEditRouteImport.update({
+  id: '/portfolio/$slug/edit',
+  path: '/portfolio/$slug/edit',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminUploadRoute = AdminUploadRouteImport.update({
   id: '/upload',
   path: '/upload',
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/store': typeof StoreRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/portfolio/$slug': typeof AdminPortfolioSlugRoute
+  '/admin/portfolio/$slug/edit': typeof AdminPortfolioSlugEditRoute
   '/admin/upload': typeof AdminUploadRoute
   '/admin/': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/store': typeof StoreRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/portfolio/$slug': typeof AdminPortfolioSlugRoute
+  '/admin/portfolio/$slug/edit': typeof AdminPortfolioSlugEditRoute
   '/admin/upload': typeof AdminUploadRoute
   '/admin': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -187,6 +195,7 @@ export interface FileRoutesById {
   '/store': typeof StoreRoute
   '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/portfolio/$slug': typeof AdminPortfolioSlugRoute
+  '/admin/portfolio/$slug/edit': typeof AdminPortfolioSlugEditRoute
   '/admin/upload': typeof AdminUploadRoute
   '/admin/': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -211,6 +220,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/admin/portfolio'
     | '/admin/portfolio/$slug'
+    | '/admin/portfolio/$slug/edit'
     | '/admin/upload'
     | '/admin/'
     | '/demo/api/names'
@@ -232,6 +242,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/admin/portfolio'
     | '/admin/portfolio/$slug'
+    | '/admin/portfolio/$slug/edit'
     | '/admin/upload'
     | '/admin'
     | '/demo/api/names'
@@ -254,6 +265,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/admin/portfolio'
     | '/admin/portfolio/$slug'
+    | '/admin/portfolio/$slug/edit'
     | '/admin/upload'
     | '/admin/'
     | '/demo/api/names'
@@ -370,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPortfolioSlugRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/portfolio/$slug/edit': {
+      id: '/admin/portfolio/$slug/edit'
+      path: '/portfolio/$slug/edit'
+      fullPath: '/admin/portfolio/$slug/edit'
+      preLoaderRoute: typeof AdminPortfolioSlugEditRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/upload': {
       id: '/admin/upload'
       path: '/upload'
@@ -433,6 +452,7 @@ interface AdminRouteChildren {
   AdminUploadRoute: typeof AdminUploadRoute
   AdminPortfolioRoute: typeof AdminPortfolioRoute
   AdminPortfolioSlugRoute: typeof AdminPortfolioSlugRoute
+  AdminPortfolioSlugEditRoute: typeof AdminPortfolioSlugEditRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
@@ -440,6 +460,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminUploadRoute: AdminUploadRoute,
   AdminPortfolioRoute: AdminPortfolioRoute,
   AdminPortfolioSlugRoute: AdminPortfolioSlugRoute,
+  AdminPortfolioSlugEditRoute: AdminPortfolioSlugEditRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 

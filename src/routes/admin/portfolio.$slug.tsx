@@ -31,6 +31,7 @@ export const Route = createFileRoute('/admin/portfolio/$slug')({
 
 function AdminPortfolioDetail() {
   const { artwork } = Route.useLoaderData()
+  const { slug } = Route.useParams()
 
   return (
     <div className="min-h-screen bg-white py-12 px-6">
@@ -42,9 +43,20 @@ function AdminPortfolioDetail() {
           >
             ← Back to portfolio
           </Link>
-          <h1 className="text-3xl font-semibold text-gray-900">
-            Portfolio entry
-          </h1>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h1 className="text-3xl font-semibold text-gray-900">
+              Portfolio entry
+            </h1>
+            {artwork && (
+              <Link
+                to="/admin/portfolio/$slug/edit"
+                params={{ slug }}
+                className="inline-flex items-center justify-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:border-gray-400 hover:bg-gray-50"
+              >
+                Edit entry
+              </Link>
+            )}
+          </div>
         </div>
 
         {artwork ? (
