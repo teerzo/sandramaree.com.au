@@ -18,6 +18,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
 import { Route as AdminUploadRouteImport } from './routes/admin/upload'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
@@ -72,6 +73,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminUploadRoute = AdminUploadRouteImport.update({
   id: '/upload',
   path: '/upload',
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/store': typeof StoreRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/upload': typeof AdminUploadRoute
   '/admin/': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/store': typeof StoreRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/upload': typeof AdminUploadRoute
   '/admin': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/store': typeof StoreRoute
+  '/admin/portfolio': typeof AdminPortfolioRoute
   '/admin/upload': typeof AdminUploadRoute
   '/admin/': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/portfolio'
     | '/store'
+    | '/admin/portfolio'
     | '/admin/upload'
     | '/admin/'
     | '/demo/api/names'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/portfolio'
     | '/store'
+    | '/admin/portfolio'
     | '/admin/upload'
     | '/admin'
     | '/demo/api/names'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/portfolio'
     | '/store'
+    | '/admin/portfolio'
     | '/admin/upload'
     | '/admin/'
     | '/demo/api/names'
@@ -312,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/portfolio': {
+      id: '/admin/portfolio'
+      path: '/portfolio'
+      fullPath: '/admin/portfolio'
+      preLoaderRoute: typeof AdminPortfolioRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/upload': {
       id: '/admin/upload'
       path: '/upload'
@@ -373,11 +392,13 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminUploadRoute: typeof AdminUploadRoute
+  AdminPortfolioRoute: typeof AdminPortfolioRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminUploadRoute: AdminUploadRoute,
+  AdminPortfolioRoute: AdminPortfolioRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
