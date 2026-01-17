@@ -1,0 +1,8 @@
+-- Add portfolio-related fields to artwork table
+ALTER TABLE public.artwork
+  ADD COLUMN IF NOT EXISTS category TEXT,
+  ADD COLUMN IF NOT EXISTS is_favourite BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS price NUMERIC(10, 2),
+  ADD COLUMN IF NOT EXISTS is_sold BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS store_url TEXT,
+  ADD COLUMN IF NOT EXISTS date DATE;

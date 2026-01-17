@@ -16,26 +16,44 @@ export type Database = {
     Tables: {
       artwork: {
         Row: {
+          category: string | null
           created_at: string
+          date: string | null
           description: string
           id: string
+          is_favourite: boolean
+          is_sold: boolean
+          price: number | null
           s3_url: string
+          store_url: string | null
           title: string
           updated_at: string
         }
         Insert: {
+          category?: string | null
           created_at?: string
+          date?: string | null
           description: string
           id?: string
+          is_favourite?: boolean
+          is_sold?: boolean
+          price?: number | null
           s3_url: string
+          store_url?: string | null
           title: string
           updated_at?: string
         }
         Update: {
+          category?: string | null
           created_at?: string
+          date?: string | null
           description?: string
           id?: string
+          is_favourite?: boolean
+          is_sold?: boolean
+          price?: number | null
           s3_url?: string
+          store_url?: string | null
           title?: string
           updated_at?: string
         }
