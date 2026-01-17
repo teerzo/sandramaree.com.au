@@ -13,6 +13,12 @@ function Upload() {
     const [preview, setPreview] = useState<string | null>(null)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+    const [category, setCategory] = useState('')
+    const [artworkDate, setArtworkDate] = useState('')
+    const [price, setPrice] = useState('')
+    const [storeUrl, setStoreUrl] = useState('')
+    const [isFavourite, setIsFavourite] = useState(false)
+    const [isSold, setIsSold] = useState(false)
     const [s3Url, setS3Url] = useState('')
     const [isUploading, setIsUploading] = useState(false)
     const [error, setError] = useState('')
@@ -72,6 +78,11 @@ function Upload() {
 
         const trimmedTitle = title.trim()
         const trimmedDescription = description.trim()
+        const trimmedCategory = category.trim()
+        const trimmedStoreUrl = storeUrl.trim()
+        const trimmedPrice = price.trim()
+        const trimmedDate = artworkDate.trim()
+        const parsedPrice = trimmedPrice ? Number(trimmedPrice) : null
 
         if (!trimmedTitle) {
             setError('Title is required')
@@ -80,6 +91,11 @@ function Upload() {
 
         if (!trimmedDescription) {
             setError('Description is required')
+            return
+        }
+
+        if (trimmedPrice && Number.isNaN(parsedPrice)) {
+            setError('Price must be a valid number')
             return
         }
 
@@ -126,7 +142,13 @@ function Upload() {
                     {
                         title: trimmedTitle,
                         description: trimmedDescription,
-                        s3_url: publicUrl
+                        s3_url: publicUrl,
+                        category: trimmedCategory ? trimmedCategory : null,
+                        is_favourite: isFavourite,
+                        is_sold: isSold,
+                        price: parsedPrice,
+                        store_url: trimmedStoreUrl ? trimmedStoreUrl : null,
+                        date: trimmedDate ? trimmedDate : null
                     }
                 ])
 
@@ -151,11 +173,17 @@ function Upload() {
                 setPreview(null)
                 setTitle('')
                 setDescription('')
+                setCategory('')
+                setArtworkDate('')
+                setPrice('')
+                setStoreUrl('')
+                setIsFavourite(false)
+                setIsSold(false)
                 setS3Url('')
                 if (fileInputRef.current) {
                     fileInputRef.current.value = ''
                 }
-                navigate({ to: '/portfolio' })
+                navigate({ to: '/admin/portfolio' })
             }, 2000)
 
         } catch (err) {
@@ -257,6 +285,86 @@ function Upload() {
                         />
                     </div>
 
+                    {/* Category Field */}
+                    <div>
+                        <label htmlFor="category" className="block text-gray-700 font-bold mb-2">
+                            Category
+                        </label>
+                        <input
+                            type="text"
+                            id="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Portraits, Sunrise and Seas, or leave blank for Misc"
+                        />
+                    </div>
+
+                    {/* Additional Portfolio Fields */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="date" className="block text-gray-700 font-bold mb-2">
+                                Date
+                            </label>
+                            <input
+                                type="date"
+                                id="date"
+                                value={artworkDate}
+                                onChange={(e) => setArtworkDate(e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="price" className="block text-gray-700 font-bold mb-2">
+                                Price
+                            </label>
+                            <input
+                                type="number"
+                                id="price"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
+                                min="0"
+                                step="0.01"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="0.00"
+                            />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label htmlFor="storeUrl" className="block text-gray-700 font-bold mb-2">
+                                Store URL
+                            </label>
+                            <input
+                                type="url"
+                                id="storeUrl"
+                                value={storeUrl}
+                                onChange={(e) => setStoreUrl(e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="https://"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-3">
+                        <label className="inline-flex items-center gap-2 text-gray-700 font-medium">
+                            <input
+                                type="checkbox"
+                                checked={isFavourite}
+                                onChange={(e) => setIsFavourite(e.target.checked)}
+                                className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                            />
+                            Mark as favourite
+                        </label>
+                        <label className="inline-flex items-center gap-2 text-gray-700 font-medium">
+                            <input
+                                type="checkbox"
+                                checked={isSold}
+                                onChange={(e) => setIsSold(e.target.checked)}
+                                className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                            />
+                            Mark as sold
+                        </label>
+                    </div>
+
                     {/* S3 URL Field - Disabled, shows after upload */}
                     <div>
                         <label htmlFor="s3Url" className="block text-gray-700 font-bold mb-2">
@@ -282,7 +390,7 @@ function Upload() {
                     {/* Success Message */}
                     {success && (
                         <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
-                            Artwork uploaded successfully! Redirecting to portfolio...
+                            Artwork uploaded successfully! Redirecting to admin portfolio...
                         </div>
                     )}
 
