@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/about')({
     component: About,
@@ -11,17 +11,69 @@ function About() {
                 {/* <h1 className="text-4xl font-bold text-gray-900 mb-8">About</h1> */}
 
                 <div className="flex flex-row gap-10 mt-10">
-                    <div className="hidden md:flex flex-col gap-2">
-                        <a href="#about" className="text-gray-700 hover:text-gray-900"> About</a>
-                        <a href="#solo" className="text-gray-700 hover:text-gray-900"> Solo Exhibitions</a>
-                        <a href="#group" className="text-gray-700 hover:text-gray-900"> Group Exhibitions</a>
-                        <a href="#commissions" className="text-gray-700 hover:text-gray-900"> Commissions</a>
-                        <a href="#publications" className="text-gray-700 hover:text-gray-900"> Publications </a>
-                        <a href="#reviews" className="text-gray-700 hover:text-gray-900"> Reviews </a>
-                        <a href="#representation" className="text-gray-700 hover:text-gray-900"> Representation </a>
-                        <a href="#education" className="text-gray-700 hover:text-gray-900"> Education </a>
-
-                    </div>
+                    <nav className="hidden lg:flex w-60 shrink-0">
+                        <div className="sticky top-24 w-full rounded-lg border border-gray-200 bg-gray-50 p-4">
+                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+                                Contents
+                            </p>
+                            <ul className="mt-4 flex flex-col gap-2 text-sm">
+                                <li>
+                                    <a href="#about" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                                        <span className="text-xs font-semibold text-gray-400">01</span>
+                                        <span>About</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#solo" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                                        <span className="text-xs font-semibold text-gray-400">02</span>
+                                        <span>Solo Exhibitions</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#group" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                                        <span className="text-xs font-semibold text-gray-400">03</span>
+                                        <span>Group Exhibitions</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#commissions" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                                        <span className="text-xs font-semibold text-gray-400">04</span>
+                                        <span>Commissions</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#publications" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                                        <span className="text-xs font-semibold text-gray-400">05</span>
+                                        <span>Publications</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#reviews" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                                        <span className="text-xs font-semibold text-gray-400">06</span>
+                                        <span>Reviews</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#representation" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                                        <span className="text-xs font-semibold text-gray-400">07</span>
+                                        <span>Representation</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#education" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                                        <span className="text-xs font-semibold text-gray-400">08</span>
+                                        <span>Education</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#contact" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                                        <span className="text-xs font-semibold text-gray-400">09</span>
+                                        <span>Contact</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
                     <div className="flex flex-col gap-4">
 
                         <div className="flex flex-col gap-2" id="about">
@@ -158,6 +210,18 @@ function About() {
                                 <li>1986-1987 - Private art tuition with artist John Brophy</li>
                                 <li>1984 - Diploma in Primary Education majoring in Art , Kuringai College of Advanced Education</li>
                             </ul>
+                        </div>
+                        <div className="flex flex-col gap-3" id="contact">
+                            <h1 className="text-4xl font-bold text-gray-900 mb-6">Contact</h1>
+                            <p className="text-gray-700">
+                                For commissions, collaborations, or exhibition enquiries, please reach out.
+                            </p>
+                            <Link
+                                to="/contact"
+                                className="inline-flex w-fit items-center justify-center rounded-full border border-gray-900 px-5 py-2 text-sm font-semibold text-gray-900 transition hover:bg-gray-900 hover:text-white"
+                            >
+                                Get in touch
+                            </Link>
                         </div>
                     </div>
                 </div>
