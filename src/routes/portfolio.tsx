@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, Outlet, createFileRoute, useLocation } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
 import { getArtworkSlug } from '../utils/portfolio'
 import { supabase } from '../utils/supabase'
@@ -52,6 +52,9 @@ export const Route = createFileRoute('/portfolio')({
 function Portfolio() {
   const { artwork } = Route.useLoaderData()
   const [activeTab, setActiveTab] = useState(categoryTabs[0].key)
+  const location = useLocation()
+  const isIndexRoute =
+    location.pathname === '/portfolio' || location.pathname === '/portfolio/'
 
   const tabCounts = useMemo(() => {
     return categoryTabs.reduce<Record<string, number>>((counts, tab) => {
@@ -73,6 +76,10 @@ function Portfolio() {
     categoryTabs[0].label
 
   console.log('artwork', artwork);
+
+  if (!isIndexRoute) {
+    return <Outlet />
+  }
 
   return (
     <div className="min-h-screen bg-white py-12 px-6">
