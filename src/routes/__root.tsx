@@ -69,19 +69,19 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <AuthProvider>
           {isAdminRoute ? <AdminHeader /> : <Header />}
-          {children}
+        {children}
           <Footer />
-          <TanStackDevtools
-            config={{
-              position: 'bottom-right',
-            }}
-            plugins={[
-              {
-                name: 'Tanstack Router',
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
+        <TanStackDevtools
+          config={{
+            position: 'bottom-right',
+          }}
+          plugins={[
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+          ]}
+        />
         </AuthProvider>
         <Scripts />
       </body>

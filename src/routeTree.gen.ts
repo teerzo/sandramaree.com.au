@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StoreRouteImport } from './routes/store'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
-import { Route as PortfolioSlugRouteImport } from './routes/portfolio.$slug'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ArtClassesRouteImport } from './routes/art-classes'
@@ -19,16 +18,20 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
-import { Route as AdminPortfolioSlugRouteImport } from './routes/admin/portfolio.$slug'
+import { Route as PortfolioSlugRouteImport } from './routes/portfolio.$slug'
 import { Route as AdminUploadRouteImport } from './routes/admin/upload'
+import { Route as AdminPortfolioRouteImport } from './routes/admin/portfolio'
+import { Route as AdminPortfolioIndexRouteImport } from './routes/admin/portfolio/index'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
+import { Route as AdminPortfolioSlugRouteImport } from './routes/admin/portfolio.$slug'
 import { Route as DemoStartSsrIndexRouteImport } from './routes/demo/start.ssr.index'
+import { Route as AdminPortfolioSlugIndexRouteImport } from './routes/admin/portfolio.$slug.index'
 import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr.spa-mode'
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
+import { Route as AdminPortfolioSlugEditRouteImport } from './routes/admin/portfolio.$slug.edit'
 
 const StoreRoute = StoreRouteImport.update({
   id: '/store',
@@ -38,11 +41,6 @@ const StoreRoute = StoreRouteImport.update({
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PortfolioSlugRoute = PortfolioSlugRouteImport.update({
-  id: '/portfolio/$slug',
-  path: '/portfolio/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -80,20 +78,25 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
-  id: '/portfolio',
-  path: '/portfolio',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPortfolioSlugRoute = AdminPortfolioSlugRouteImport.update({
-  id: '/portfolio/$slug',
-  path: '/portfolio/$slug',
-  getParentRoute: () => AdminRoute,
+const PortfolioSlugRoute = PortfolioSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PortfolioRoute,
 } as any)
 const AdminUploadRoute = AdminUploadRouteImport.update({
   id: '/upload',
   path: '/upload',
   getParentRoute: () => AdminRoute,
+} as any)
+const AdminPortfolioRoute = AdminPortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPortfolioIndexRoute = AdminPortfolioIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminPortfolioRoute,
 } as any)
 const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
   id: '/demo/start/server-funcs',
@@ -110,10 +113,20 @@ const DemoApiNamesRoute = DemoApiNamesRouteImport.update({
   path: '/demo/api/names',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPortfolioSlugRoute = AdminPortfolioSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AdminPortfolioRoute,
+} as any)
 const DemoStartSsrIndexRoute = DemoStartSsrIndexRouteImport.update({
   id: '/demo/start/ssr/',
   path: '/demo/start/ssr/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPortfolioSlugIndexRoute = AdminPortfolioSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminPortfolioSlugRoute,
 } as any)
 const DemoStartSsrSpaModeRoute = DemoStartSsrSpaModeRouteImport.update({
   id: '/demo/start/ssr/spa-mode',
@@ -130,6 +143,11 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
   path: '/demo/start/ssr/data-only',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPortfolioSlugEditRoute = AdminPortfolioSlugEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AdminPortfolioSlugRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -138,19 +156,22 @@ export interface FileRoutesByFullPath {
   '/art-classes': typeof ArtClassesRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
-  '/portfolio': typeof PortfolioRoute
-  '/portfolio/$slug': typeof PortfolioSlugRoute
+  '/portfolio': typeof PortfolioRouteWithChildren
   '/store': typeof StoreRoute
-  '/admin/portfolio': typeof AdminPortfolioRoute
-  '/admin/portfolio/$slug': typeof AdminPortfolioSlugRoute
+  '/admin/portfolio': typeof AdminPortfolioRouteWithChildren
   '/admin/upload': typeof AdminUploadRoute
+  '/portfolio/$slug': typeof PortfolioSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/portfolio/$slug': typeof AdminPortfolioSlugRouteWithChildren
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
+  '/admin/portfolio/': typeof AdminPortfolioIndexRoute
+  '/admin/portfolio/$slug/edit': typeof AdminPortfolioSlugEditRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
+  '/admin/portfolio/$slug/': typeof AdminPortfolioSlugIndexRoute
   '/demo/start/ssr': typeof DemoStartSsrIndexRoute
 }
 export interface FileRoutesByTo {
@@ -159,19 +180,20 @@ export interface FileRoutesByTo {
   '/art-classes': typeof ArtClassesRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
-  '/portfolio': typeof PortfolioRoute
-  '/portfolio/$slug': typeof PortfolioSlugRoute
+  '/portfolio': typeof PortfolioRouteWithChildren
   '/store': typeof StoreRoute
-  '/admin/portfolio': typeof AdminPortfolioRoute
-  '/admin/portfolio/$slug': typeof AdminPortfolioSlugRoute
   '/admin/upload': typeof AdminUploadRoute
+  '/portfolio/$slug': typeof PortfolioSlugRoute
   '/admin': typeof AdminIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
+  '/admin/portfolio': typeof AdminPortfolioIndexRoute
+  '/admin/portfolio/$slug/edit': typeof AdminPortfolioSlugEditRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
+  '/admin/portfolio/$slug': typeof AdminPortfolioSlugIndexRoute
   '/demo/start/ssr': typeof DemoStartSsrIndexRoute
 }
 export interface FileRoutesById {
@@ -182,19 +204,22 @@ export interface FileRoutesById {
   '/art-classes': typeof ArtClassesRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
-  '/portfolio': typeof PortfolioRoute
-  '/portfolio/$slug': typeof PortfolioSlugRoute
+  '/portfolio': typeof PortfolioRouteWithChildren
   '/store': typeof StoreRoute
-  '/admin/portfolio': typeof AdminPortfolioRoute
-  '/admin/portfolio/$slug': typeof AdminPortfolioSlugRoute
+  '/admin/portfolio': typeof AdminPortfolioRouteWithChildren
   '/admin/upload': typeof AdminUploadRoute
+  '/portfolio/$slug': typeof PortfolioSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/portfolio/$slug': typeof AdminPortfolioSlugRouteWithChildren
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
+  '/admin/portfolio/': typeof AdminPortfolioIndexRoute
+  '/admin/portfolio/$slug/edit': typeof AdminPortfolioSlugEditRoute
   '/demo/start/ssr/data-only': typeof DemoStartSsrDataOnlyRoute
   '/demo/start/ssr/full-ssr': typeof DemoStartSsrFullSsrRoute
   '/demo/start/ssr/spa-mode': typeof DemoStartSsrSpaModeRoute
+  '/admin/portfolio/$slug/': typeof AdminPortfolioSlugIndexRoute
   '/demo/start/ssr/': typeof DemoStartSsrIndexRoute
 }
 export interface FileRouteTypes {
@@ -207,18 +232,21 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/portfolio'
-    | '/portfolio/$slug'
     | '/store'
     | '/admin/portfolio'
-    | '/admin/portfolio/$slug'
     | '/admin/upload'
+    | '/portfolio/$slug'
     | '/admin/'
+    | '/admin/portfolio/$slug'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
+    | '/admin/portfolio/'
+    | '/admin/portfolio/$slug/edit'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
+    | '/admin/portfolio/$slug/'
     | '/demo/start/ssr'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -228,18 +256,19 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/portfolio'
-    | '/portfolio/$slug'
     | '/store'
-    | '/admin/portfolio'
-    | '/admin/portfolio/$slug'
     | '/admin/upload'
+    | '/portfolio/$slug'
     | '/admin'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
+    | '/admin/portfolio'
+    | '/admin/portfolio/$slug/edit'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
+    | '/admin/portfolio/$slug'
     | '/demo/start/ssr'
   id:
     | '__root__'
@@ -250,18 +279,21 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/portfolio'
-    | '/portfolio/$slug'
     | '/store'
     | '/admin/portfolio'
-    | '/admin/portfolio/$slug'
     | '/admin/upload'
+    | '/portfolio/$slug'
     | '/admin/'
+    | '/admin/portfolio/$slug'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
+    | '/admin/portfolio/'
+    | '/admin/portfolio/$slug/edit'
     | '/demo/start/ssr/data-only'
     | '/demo/start/ssr/full-ssr'
     | '/demo/start/ssr/spa-mode'
+    | '/admin/portfolio/$slug/'
     | '/demo/start/ssr/'
   fileRoutesById: FileRoutesById
 }
@@ -272,8 +304,7 @@ export interface RootRouteChildren {
   ArtClassesRoute: typeof ArtClassesRoute
   ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
-  PortfolioRoute: typeof PortfolioRoute
-  PortfolioSlugRoute: typeof PortfolioSlugRoute
+  PortfolioRoute: typeof PortfolioRouteWithChildren
   StoreRoute: typeof StoreRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
@@ -298,13 +329,6 @@ declare module '@tanstack/react-router' {
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/portfolio/$slug': {
-      id: '/portfolio/$slug'
-      path: '/portfolio/$slug'
-      fullPath: '/portfolio/$slug'
-      preLoaderRoute: typeof PortfolioSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -356,19 +380,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/portfolio': {
-      id: '/admin/portfolio'
-      path: '/portfolio'
-      fullPath: '/admin/portfolio'
-      preLoaderRoute: typeof AdminPortfolioRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/portfolio/$slug': {
-      id: '/admin/portfolio/$slug'
-      path: '/portfolio/$slug'
-      fullPath: '/admin/portfolio/$slug'
-      preLoaderRoute: typeof AdminPortfolioSlugRouteImport
-      parentRoute: typeof AdminRoute
+    '/portfolio/$slug': {
+      id: '/portfolio/$slug'
+      path: '/$slug'
+      fullPath: '/portfolio/$slug'
+      preLoaderRoute: typeof PortfolioSlugRouteImport
+      parentRoute: typeof PortfolioRoute
     }
     '/admin/upload': {
       id: '/admin/upload'
@@ -376,6 +393,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/upload'
       preLoaderRoute: typeof AdminUploadRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/admin/portfolio': {
+      id: '/admin/portfolio'
+      path: '/portfolio'
+      fullPath: '/admin/portfolio'
+      preLoaderRoute: typeof AdminPortfolioRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/portfolio/': {
+      id: '/admin/portfolio/'
+      path: '/'
+      fullPath: '/admin/portfolio/'
+      preLoaderRoute: typeof AdminPortfolioIndexRouteImport
+      parentRoute: typeof AdminPortfolioRoute
     }
     '/demo/start/server-funcs': {
       id: '/demo/start/server-funcs'
@@ -398,12 +429,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoApiNamesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/portfolio/$slug': {
+      id: '/admin/portfolio/$slug'
+      path: '/$slug'
+      fullPath: '/admin/portfolio/$slug'
+      preLoaderRoute: typeof AdminPortfolioSlugRouteImport
+      parentRoute: typeof AdminPortfolioRoute
+    }
     '/demo/start/ssr/': {
       id: '/demo/start/ssr/'
       path: '/demo/start/ssr'
       fullPath: '/demo/start/ssr'
       preLoaderRoute: typeof DemoStartSsrIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/portfolio/$slug/': {
+      id: '/admin/portfolio/$slug/'
+      path: '/'
+      fullPath: '/admin/portfolio/$slug/'
+      preLoaderRoute: typeof AdminPortfolioSlugIndexRouteImport
+      parentRoute: typeof AdminPortfolioSlugRoute
     }
     '/demo/start/ssr/spa-mode': {
       id: '/demo/start/ssr/spa-mode'
@@ -426,24 +471,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoStartSsrDataOnlyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/portfolio/$slug/edit': {
+      id: '/admin/portfolio/$slug/edit'
+      path: '/edit'
+      fullPath: '/admin/portfolio/$slug/edit'
+      preLoaderRoute: typeof AdminPortfolioSlugEditRouteImport
+      parentRoute: typeof AdminPortfolioSlugRoute
+    }
   }
 }
 
+interface AdminPortfolioSlugRouteChildren {
+  AdminPortfolioSlugEditRoute: typeof AdminPortfolioSlugEditRoute
+  AdminPortfolioSlugIndexRoute: typeof AdminPortfolioSlugIndexRoute
+}
+
+const AdminPortfolioSlugRouteChildren: AdminPortfolioSlugRouteChildren = {
+  AdminPortfolioSlugEditRoute: AdminPortfolioSlugEditRoute,
+  AdminPortfolioSlugIndexRoute: AdminPortfolioSlugIndexRoute,
+}
+
+const AdminPortfolioSlugRouteWithChildren =
+  AdminPortfolioSlugRoute._addFileChildren(AdminPortfolioSlugRouteChildren)
+
+interface AdminPortfolioRouteChildren {
+  AdminPortfolioSlugRoute: typeof AdminPortfolioSlugRouteWithChildren
+  AdminPortfolioIndexRoute: typeof AdminPortfolioIndexRoute
+}
+
+const AdminPortfolioRouteChildren: AdminPortfolioRouteChildren = {
+  AdminPortfolioSlugRoute: AdminPortfolioSlugRouteWithChildren,
+  AdminPortfolioIndexRoute: AdminPortfolioIndexRoute,
+}
+
+const AdminPortfolioRouteWithChildren = AdminPortfolioRoute._addFileChildren(
+  AdminPortfolioRouteChildren,
+)
+
 interface AdminRouteChildren {
+  AdminPortfolioRoute: typeof AdminPortfolioRouteWithChildren
   AdminUploadRoute: typeof AdminUploadRoute
-  AdminPortfolioRoute: typeof AdminPortfolioRoute
-  AdminPortfolioSlugRoute: typeof AdminPortfolioSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminPortfolioRoute: AdminPortfolioRouteWithChildren,
   AdminUploadRoute: AdminUploadRoute,
-  AdminPortfolioRoute: AdminPortfolioRoute,
-  AdminPortfolioSlugRoute: AdminPortfolioSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface PortfolioRouteChildren {
+  PortfolioSlugRoute: typeof PortfolioSlugRoute
+}
+
+const PortfolioRouteChildren: PortfolioRouteChildren = {
+  PortfolioSlugRoute: PortfolioSlugRoute,
+}
+
+const PortfolioRouteWithChildren = PortfolioRoute._addFileChildren(
+  PortfolioRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -452,8 +541,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArtClassesRoute: ArtClassesRoute,
   ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
-  PortfolioRoute: PortfolioRoute,
-  PortfolioSlugRoute: PortfolioSlugRoute,
+  PortfolioRoute: PortfolioRouteWithChildren,
   StoreRoute: StoreRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,

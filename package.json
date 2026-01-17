@@ -10,7 +10,8 @@
     "lint": "eslint",
     "format": "prettier",
     "check": "prettier --write . && eslint --fix",
-    "update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > types/supabase.ts"
+    "update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > types/supabase.ts",
+    "update-types-local": "npx supabase gen types typescript --local > types/supabase.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.90.1",

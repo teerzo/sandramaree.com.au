@@ -29,7 +29,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="p-4 flex items-center justify-between bg-white text-gray-900 shadow-lg border-b border-gray-200">
+      <header className="fixed top-0 left-0 right-0 z-50 p-4 flex items-center justify-between  text-gray-900 backdrop-blur-sm">
         <div className="flex items-center">
           <button
             onClick={() => setIsOpen(true)}

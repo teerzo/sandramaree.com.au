@@ -2,17 +2,15 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 
 import ArtworkDetail from '../components/ArtworkDetail'
 import { supabase } from '../utils/supabase'
-import { getArtworkIdFromSlug } from '../utils/portfolio'
 
 export const Route = createFileRoute('/portfolio/$slug')({
   ssr: 'data-only',
   loader: async ({ params }) => {
     try {
-      const artworkId = getArtworkIdFromSlug(params.slug)
       const { data, error } = await supabase
         .from('artwork')
         .select('*')
-        .eq('id', artworkId)
+        .eq('id', params.slug)
         .maybeSingle()
 
       if (error) {

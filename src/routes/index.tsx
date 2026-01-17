@@ -102,17 +102,19 @@ function Home() {
     activeArtwork?.description || activeArtwork?.title || 'Featured artwork'
 
   return (
-    <div className="relative min-h-screen">
-      <img
-        src={heroImageSrc}
-        alt={heroImageAlt}
-        className="min-h-screen w-full object-cover"
-      />
+    <div className="relative min-h-screen ">
+      <div className="h-full w-full object-cover">
+        <img
+
+          src={heroImageSrc}
+          alt={heroImageAlt}
+          className="h-full w-full object-cover max-h-96"
+        />
+      </div>
       {isOverlayVisible ? (
         <div
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-300 ${
-            isOverlayFading ? 'opacity-0' : 'opacity-100'
-          }`}
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-white transition-opacity duration-300 ${isOverlayFading ? 'opacity-0' : 'opacity-100'
+            }`}
         >
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-gray-700" />
         </div>

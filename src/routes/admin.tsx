@@ -19,7 +19,7 @@ export const Route = createFileRoute('/admin')({
 
 function Admin() {
     const { user } = useAuth()
-    console.log('user', user);
+    // console.log('user', user);
 
     return (
         <div className="min-h-screen bg-white">

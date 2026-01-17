@@ -1,25 +1,10 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
-import { getArtworkSlug } from '../utils/portfolio'
 import { supabase } from '../utils/supabase'
+import { categoryTabs } from '../utils/categories'
 
-const normalizeCategory = (category: string | null | undefined) =>
-  (category ?? '').trim().toLowerCase()
-
-const categoryTabs = [
-  {
-    key: 'portraits',
-    label: 'Portraits',
-    matches: (category: string | null | undefined) =>
-      normalizeCategory(category) === 'portraits',
-  },
-  {
-    key: 'sunrise-and-seas',
-    label: 'Sunrise and Seas',
-    matches: (category: string | null | undefined) =>
-      normalizeCategory(category) === 'sunrise and seas',
-  },
-]
+// Filter to only show portraits and sunrise-and-seas tabs (exclude misc)
+const publicCategoryTabs = categoryTabs.filter(tab => tab.key !== 'misc')
 
 export const Route = createFileRoute('/portfolio')({
   ssr: 'data-only',
@@ -33,6 +18,7 @@ export const Route = createFileRoute('/portfolio')({
     try {
       const { data: artwork, error } = await supabase.from('artwork').select('*')
       
+      console.log('Artwork data loaded:', artwork)
       if (error) {
         console.error('Supabase error:', error)
         throw error
@@ -51,28 +37,29 @@ export const Route = createFileRoute('/portfolio')({
 
 function Portfolio() {
   const { artwork } = Route.useLoaderData()
-  const [activeTab, setActiveTab] = useState(categoryTabs[0].key)
+  const [activeTab, setActiveTab] = useState(publicCategoryTabs[0].key)
 
+  console.log('artwork', artwork, activeTab);
   const tabCounts = useMemo(() => {
-    return categoryTabs.reduce<Record<string, number>>((counts, tab) => {
-      counts[tab.key] = artwork.filter((item) =>
+    return publicCategoryTabs.reduce<Record<string, number>>((counts, tab) => {
+      counts[tab.key] = artwork?.length ? artwork.filter((item) =>
         tab.matches(item.category),
-      ).length
+      ).length : 0
       return counts
     }, {})
   }, [artwork])
 
   const filteredArtwork = useMemo(() => {
     const activeMatcher =
-      categoryTabs.find((tab) => tab.key === activeTab) ?? categoryTabs[0]
-    return artwork.filter((item) => activeMatcher.matches(item.category))
+      publicCategoryTabs.find((tab) => tab.key === activeTab) ?? publicCategoryTabs[0]
+    return artwork?.length ? artwork.filter((item) => activeMatcher.matches(item.category)) : []
   }, [artwork, activeTab])
 
   const activeTabLabel =
-    categoryTabs.find((tab) => tab.key === activeTab)?.label ??
-    categoryTabs[0].label
+    publicCategoryTabs.find((tab) => tab.key === activeTab)?.label ??
+    publicCategoryTabs[0].label
 
-  console.log('artwork', artwork);
+  console.log('artwork', artwork, activeTab, activeTabLabel, filteredArtwork);
 
   return (
     <div className="min-h-screen bg-white py-12 px-6">
@@ -83,7 +70,7 @@ function Portfolio() {
         </p>
 
         <div className="flex flex-wrap gap-2 mb-6">
-          {categoryTabs.map((tab) => {
+          {publicCategoryTabs.map((tab) => {
             const isActive = tab.key === activeTab
             return (
               <button
@@ -119,7 +106,7 @@ function Portfolio() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredArtwork?.map((artwork) => {
-              const slug = getArtworkSlug(artwork)
+              const slug = artwork.id
               return (
                 <div
                   key={artwork.id || artwork.s3_url}
