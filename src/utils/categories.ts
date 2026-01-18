@@ -101,7 +101,7 @@ export const isValidCategory = (category: string | null | undefined): boolean =>
  * Gets category options for select/input fields
  */
 export const getCategoryOptions = () => [
-  { value: '', label: 'Misc (default)' },
+  { value: '', label: 'Misc' },
   { value: ArtworkCategory.PORTRAITS, label: 'Portraits' },
   { value: ArtworkCategory.SUNRISE_AND_SEAS, label: 'Sunrise and Seas' },
 ]

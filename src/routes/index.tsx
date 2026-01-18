@@ -100,16 +100,37 @@ function Home() {
   const heroImageSrc = activeArtwork?.s3_url ?? '/images/background.jpg'
   const heroImageAlt =
     activeArtwork?.description || activeArtwork?.title || 'Featured artwork'
+  const heroImageOrientation = activeArtwork?.orientation ?? 'landscape'
 
+  console.log(heroImageSrc)
   return (
-    <div className="relative min-h-screen ">
-      <div className="h-full w-full object-cover">
+    <div className="relative min-h-screen overflow-hidden">
+      <div className="relative h-full w-full object-cover">
+        {/* Main image */}
         <img
-
           src={heroImageSrc}
           alt={heroImageAlt}
-          className="h-full w-full object-cover max-h-96"
+          className="relative h-full w-full object-cover  z-10"
         />
+      </div>
+
+      <div className="fixed top-0 left-0 right-0 bottom-0 z-[-1]">
+        {/* Blurred background image */}
+        {heroImageOrientation === 'landscape' ? (
+          <img
+            src={heroImageSrc}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover  blur-lg scale-110 opacity-50"
+            aria-hidden="true"
+          />
+        ) : (
+          <img
+            src={heroImageSrc}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover  blur-lg scale-110 opacity-50"
+            aria-hidden="true"
+          />
+        )}  
       </div>
       {isOverlayVisible ? (
         <div

@@ -3,6 +3,7 @@ import { useState, useRef } from 'react'
 import { Upload as UploadIcon, X } from 'lucide-react'
 import { supabase } from '../../utils/supabase'
 import { useAuth } from '../../contexts/AuthContext'
+import { getCategoryOptions } from '../../utils/categories'
 
 export const Route = createFileRoute('/admin/upload')({
     component: Upload,
@@ -290,14 +291,18 @@ function Upload() {
                         <label htmlFor="category" className="block text-gray-700 font-bold mb-2">
                             Category
                         </label>
-                        <input
-                            type="text"
+                        <select
                             id="category"
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Portraits, Sunrise and Seas, or leave blank for Misc"
-                        />
+                        >
+                            {getCategoryOptions().map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     {/* Additional Portfolio Fields */}
