@@ -13,6 +13,7 @@ function Home() {
   const [isOverlayVisible, setIsOverlayVisible] = useState(true)
   const [isOverlayFading, setIsOverlayFading] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [imageOrientation, setImageOrientation] = useState<'landscape' | 'portrait'>('landscape')
 
   useEffect(() => {
     let isMounted = true
@@ -33,7 +34,7 @@ function Home() {
         console.error('Failed to load favourite artwork:', error)
         setFavourites([])
       } else {
-        setFavourites(data ?? [])
+        setFavourites((data ?? []) as Artwork[])
       }
 
       setIsLoading(false)
@@ -100,37 +101,61 @@ function Home() {
   const heroImageSrc = activeArtwork?.s3_url ?? '/images/background.jpg'
   const heroImageAlt =
     activeArtwork?.description || activeArtwork?.title || 'Featured artwork'
-  const heroImageOrientation = activeArtwork?.orientation ?? 'landscape'
+
+  // Detect image orientation when src changes
+  useEffect(() => {
+    if (!heroImageSrc) return
+
+    const img = new Image()
+
+    img.onload = () => {
+      const orientation = img.naturalWidth > img.naturalHeight ? 'landscape' : 'portrait'
+      setImageOrientation(orientation)
+    }
+
+    img.onerror = () => {
+      // Default to landscape on error
+      setImageOrientation('landscape')
+    }
+
+    img.src = heroImageSrc
+
+    return () => {
+      // Reset when src changes
+      setImageOrientation('landscape')
+    }
+  }, [heroImageSrc])
+
+  const heroImageOrientation = imageOrientation
 
   console.log(heroImageSrc)
   return (
     <div className="relative min-h-screen overflow-hidden">
       <div className="relative h-full w-full object-cover">
         {/* Main image */}
-        <img
-          src={heroImageSrc}
-          alt={heroImageAlt}
-          className="relative h-full w-full object-cover  z-10"
-        />
-      </div>
-
-      <div className="fixed top-0 left-0 right-0 bottom-0 z-[-1]">
-        {/* Blurred background image */}
         {heroImageOrientation === 'landscape' ? (
           <img
             src={heroImageSrc}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover  blur-lg scale-110 opacity-50"
-            aria-hidden="true"
+            alt={heroImageAlt}
+            className="relative w-full h-auto object-cover mx-auto z-10"
           />
         ) : (
           <img
             src={heroImageSrc}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover  blur-lg scale-110 opacity-50"
-            aria-hidden="true"
+            alt={heroImageAlt}
+            className="relative w-auto h-full object-cover mx-auto z-10"
           />
-        )}  
+        )}
+      </div>
+
+      <div className="fixed top-0 left-0 right-0 bottom-0 z-[-1]">
+        {/* Blurred background image */}
+        <img
+          src={heroImageSrc}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover  blur-lg scale-110 opacity-50"
+          aria-hidden="true"
+        />
       </div>
       {isOverlayVisible ? (
         <div
