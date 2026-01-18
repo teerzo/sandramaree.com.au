@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState, useRef, useEffect } from 'react'
 import { Upload as UploadIcon, X, CheckCircle } from 'lucide-react'
 import { supabase } from '../../utils/supabase'
-import { useAuth } from '../../contexts/AuthContext'
 
 export const Route = createFileRoute('/admin/portfolio/$slug/edit')({
   ssr: 'data-only',
@@ -31,8 +30,6 @@ export const Route = createFileRoute('/admin/portfolio/$slug/edit')({
 function EditArtwork() {
   const { artwork } = Route.useLoaderData()
   const navigate = useNavigate()
-  const { user } = useAuth()
-
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [title, setTitle] = useState('')
@@ -145,10 +142,10 @@ function EditArtwork() {
       let imageUrl = artwork.s3_url
 
       // If a new file is selected, upload it
-      if (selectedFile && user) {
+      if (selectedFile) {
         const fileExt = selectedFile.name.split('.').pop()
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
-        const filePath = `${user.id}/${fileName}`
+        const filePath = `${fileName}`
 
         const { error: uploadError } = await supabase.storage
           .from('artworks')
