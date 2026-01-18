@@ -74,7 +74,7 @@ function About() {
                             </ul>
                         </div>
                     </nav>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col w-full gap-4">
 
                         <div className="flex flex-col gap-2" id="about">
                             <h1 className="text-4xl font-bold text-gray-900 mb-8">About</h1>

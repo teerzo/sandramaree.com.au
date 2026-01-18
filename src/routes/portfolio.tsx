@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
 import { supabase } from '../utils/supabase'
 import { categoryTabs } from '../utils/categories'
@@ -104,28 +104,26 @@ function Portfolio() {
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {filteredArtwork?.map((artwork) => {
-              const slug = artwork.id
               return (
-                <div className="flex flex-row justify-between bg-white rounded-lg shadow-md p-4 w-full mx-auto">
-                  <div className="flex flex-col w-full min-w-sm max-w-sm" >
+                <div className="flex flex-col md:flex-row md:justify-between bg-white rounded-lg shadow-md p-4 w-full mx-auto">
+                  <div className="flex flex-col w-full lg:min-w-sm lg:max-w-sm order-2 md:order-1">
                     <h3 className="font-semibold text-gray-900 mb-2">
                       {artwork.title || 'Untitled'}
                     </h3>
                     <p className="text-gray-600">{artwork.description}</p>
-
                   </div>
                   <div
                     key={artwork.id || artwork.s3_url}
-                    className="bg-white  p-4 w-full max-w-xl mx-auto"
+                    className="bg-white p-4 w-full max-w-xl mx-auto order-1 md:order-2"
                   >
                     {artwork.s3_url ? (
                       <img
                         src={artwork.s3_url}
                         alt={artwork.description || artwork.title || 'Artwork'}
-                        className="w-full object-cover rounded-lg mb-4"
+                        className="w-full object-cover rounded-lg"
                       />
                     ) : (
-                      <div className="w-full h-48 bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
+                      <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
                         <svg
                           className="w-24 h-24 text-gray-400"
                           fill="none"
@@ -141,17 +139,6 @@ function Portfolio() {
                         </svg>
                       </div>
                     )}
-                    <h3 className="font-semibold text-gray-900 mb-2">
-                      {/* {artwork.title || 'Untitled'} */}
-                    </h3>
-                    {/* <p className="text-gray-600">{artwork.description}</p> */}
-                    {/* <Link
-                    to="/portfolio/$slug"
-                    params={{ slug }}
-                    className="mt-3 inline-flex text-sm font-medium text-indigo-600 hover:text-indigo-700"
-                  >
-                    View details
-                  </Link> */}
                   </div>
                 </div>
               )
