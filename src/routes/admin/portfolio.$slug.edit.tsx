@@ -93,11 +93,7 @@ function EditArtwork() {
 
   const removeFile = () => {
     setSelectedFile(null)
-    if (artwork?.s3_url) {
-      setPreview(artwork.s3_url)
-    } else {
-      setPreview(null)
-    }
+    setPreview(null)
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
