@@ -131,7 +131,7 @@ function Home() {
   console.log(heroImageSrc)
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <div className="relative h-full w-full object-cover">
+      <div className="relative h-full w-full object-cover max-w-2xl max-h-lg mx-auto">
         {/* Main image */}
         {heroImageOrientation === 'landscape' ? (
           <img
