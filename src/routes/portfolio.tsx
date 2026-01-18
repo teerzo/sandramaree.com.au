@@ -1,7 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useMemo, useState } from 'react'
+import { X } from 'lucide-react'
+import { useEffect, useMemo, useState, type MouseEvent } from 'react'
 import { supabase } from '../utils/supabase'
 import { categoryTabs } from '../utils/categories'
+import type { Tables } from '../../types/supabase'
+
+type ArtworkRow = Tables<'artwork'>
 
 // Filter to only show portraits and sunrise-and-seas tabs (exclude misc)
 const publicCategoryTabs = categoryTabs.filter(tab => tab.key !== 'misc')
@@ -36,8 +40,9 @@ export const Route = createFileRoute('/portfolio')({
 })
 
 function Portfolio() {
-  const { artwork } = Route.useLoaderData()
+  const { artwork } = Route.useLoaderData() as { artwork: ArtworkRow[] }
   const [activeTab, setActiveTab] = useState(publicCategoryTabs[0].key)
+  const [previewArtwork, setPreviewArtwork] = useState<ArtworkRow | null>(null)
 
   console.log('artwork', artwork, activeTab);
   const tabCounts = useMemo(() => {
@@ -60,6 +65,42 @@ function Portfolio() {
     publicCategoryTabs[0].label
 
   console.log('artwork', artwork, activeTab, activeTabLabel, filteredArtwork);
+
+  const handleImageClick = (item: ArtworkRow) => {
+    if (item.s3_url) {
+      setPreviewArtwork(item)
+    }
+  }
+
+  const handleClosePreview = () => {
+    setPreviewArtwork(null)
+  }
+
+  const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
+      handleClosePreview()
+    }
+  }
+
+  useEffect(() => {
+    if (!previewArtwork) {
+      return
+    }
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        handleClosePreview()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'unset'
+    }
+  }, [previewArtwork])
 
   return (
     <div className="min-h-screen bg-white py-12 px-6">
@@ -120,7 +161,8 @@ function Portfolio() {
                       <img
                         src={artwork.s3_url}
                         alt={artwork.description || artwork.title || 'Artwork'}
-                        className="w-full object-cover rounded-lg"
+                        className="w-full object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                        onClick={() => handleImageClick(artwork)}
                       />
                     ) : (
                       <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
@@ -147,6 +189,29 @@ function Portfolio() {
         )}
 
       </div>
+
+      {previewArtwork?.s3_url && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4"
+          onClick={handleBackdropClick}
+        >
+          <div className="relative max-h-full max-w-full">
+            <img
+              src={previewArtwork.s3_url}
+              alt={previewArtwork.description || previewArtwork.title || 'Artwork'}
+              className="max-h-[90vh] max-w-[90vw] object-contain"
+            />
+            <button
+              onClick={handleClosePreview}
+              className="absolute top-4 right-4 rounded-full bg-black bg-opacity-50 p-2 text-white hover:bg-opacity-70 transition-colors"
+              aria-label="Close image preview"
+              type="button"
+            >
+              <X size={24} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
